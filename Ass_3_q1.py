@@ -1,44 +1,73 @@
 class _DoubleLinkedBase:
-	""" A base class providing a doubly linked list representation."""
+    """ A base class providing a doubly linked list representation."""
 
-	class _Node:
-		""" Lightweight, nonpublic class for storing a doubly linked node"""
-		__slots__ = '_element', '_prev', '_next' # streamline memory
+    class _Node:
+        """ Lightweight, nonpublic class for storing a doubly linked node"""
+        __slots__ = '_element', '_prev', '_next'  # __slots are used to define fixed set of attributes that an object of a class should have
 
-		def __init__(self, element, prev, next): # initialize node's fields
-			self._element = element
-			self._prev = prev
-			self._next = next
+ # streamline memory
+        def __init__(self, element, prev, next):  # initialize node's fields
+            self._element = element
+            self._prev = prev
+            self._next = next
 
-	def __init__(self):
-		"""Create an empty list"""
-		self._header = self._Node(None, None, None)
-		self._trailer = self._Node(None, None, None)
-		self._header._next = self._trailer
-		self._trailer._prev = self._header
-		self._size = 0 # number of elements
+    def __init__(self):
+        """Create an empty list"""
+        self._header = self._Node(None, None, None)
+        self._trailer = self._Node(None, None, None)
+        self._header._next = self._trailer
+        self._trailer._prev = self._header
+        self._size = 0  # number of elements
 
-	def __len__(self):
-		"""Return the number of elements in the list"""
-		# ===== Start writing your code here =====
-		pass # Remove this statement once you write your code
-		# ===== End writing your code here =====
+    # def length(self):
+    #     """Return the number of elements in the list"""
+    #     count = 0
+    #     current = self._header
+    #     while current._next != self._trailer:
+    #         current = current._next
+    #         count += 1
+    #     return count
 
-	def is_empty(self):
-		"""Return true if list is empty"""
-		# ===== Start writing your code here =====
-		pass # Remove this statement once you write your code
-		# ===== End writing your code here =====
+    def __len__(self):
+        count = 0
+        current_node = self._header
+        while current_node != self._trailer:
+            current_node = current_node.next
+            count += 1
+        return count
 
-	def _insert_between(self, e, predecessor, successor):
-		"""Add element e between two existing nodes and return new node"""
-		newest = self._Node(e, predecessor, successor)
-		# ===== Start writing your code here =====
-		pass # Remove this statement once you write your code
-		# ===== End writing your code here =====
+    def is_empty(self):
+        if self._header.next == self._trailer:
+            return True
+        else:
+            return False
 
-	def _delete_node(self, node):
-		"""Delete nonsentinel node from the list and return its elements"""
-		# ===== Start writing your code here =====
-		pass # Remove this statement once you write your code
-		# ===== End writing your code here =====
+    def _insert_between(self, e, predecessor, successor):
+        """Add element e between two existing nodes and return new node"""
+        newest = self._Node(e, predecessor, successor)
+        current = self._header;
+        while current != newest.prev:  
+            current = current._next
+        node1 = current._next
+        current._next = newest._element
+        node1._prev = newest._element
+        self._size += 1
+        return newest
+        """
+            predecessor._next= newest
+            successor._prev = newest
+            self._size += 1;
+            return newest
+        """
+        
+
+    def _delete_node(self, node):
+        """Delete nonsentinel node from the list and return its elements"""
+        current_node = self._header
+        while (current_node.next != node) and (current_node!= self._trailer) :
+            current_node = current_node._next
+        if current_node == self._trailer:
+            return node
+        else:
+            current_node._next = (current_node._next)._next
+            return node
