@@ -29,12 +29,7 @@ class _DoubleLinkedBase:
     #     return count
 
     def __len__(self):
-        count = 0
-        current_node = self._header
-        while current_node != self._trailer:
-            current_node = current_node.next
-            count += 1
-        return count
+        return self._size
 
     def is_empty(self):
         if self._header.next == self._trailer:
@@ -45,20 +40,10 @@ class _DoubleLinkedBase:
     def _insert_between(self, e, predecessor, successor):
         """Add element e between two existing nodes and return new node"""
         newest = self._Node(e, predecessor, successor)
-        current = self._header;
-        while current != newest.prev:  
-            current = current._next
-        node1 = current._next
-        current._next = newest._element
-        node1._prev = newest._element
-        self._size += 1
+        predecessor._next= newest
+        successor._prev = newest
+        self._size += 1;
         return newest
-        """
-            predecessor._next= newest
-            successor._prev = newest
-            self._size += 1;
-            return newest
-        """
         
 
     def _delete_node(self, node):
