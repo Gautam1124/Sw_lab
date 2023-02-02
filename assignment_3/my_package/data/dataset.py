@@ -36,6 +36,9 @@ class Dataset(object):
             return the data items for the index idx as an object
         '''
         data_ind = self.annoList[idx]
+        path_img = data_ind["url"]
+        png = Image.open(path_img)
+        return png
        
         
 
@@ -43,3 +46,6 @@ class Dataset(object):
         '''
             return transformed PIL Image object for the image in the given path
         '''
+        if self.transforms != None:
+            img_trans = Image.open(path)
+            
