@@ -28,12 +28,15 @@ class Dataset(object):
         '''
             return the number of data points in the dataset
         '''
+        return len(self.annoList)
 
     
     def __getann__(self, idx):
         '''
             return the data items for the index idx as an object
         '''
+        data_ind = self.annoList[idx]
+       
         
 
     def __transformitem__(self, path):
